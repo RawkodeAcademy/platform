@@ -1,7 +1,10 @@
 import * as k8s from "@pulumi/kubernetes";
+import * as k8x from "@pulumi/kubernetesx";
 
+const port = 80;
 const appLabels = { app: "nginx" };
-const deployment = new k8s.apps.v1.Deployment("nginx", {
+
+const app = new k8x.Deployment("nginx", {
   spec: {
     selector: { matchLabels: appLabels },
     replicas: 1,
@@ -10,6 +13,11 @@ const deployment = new k8s.apps.v1.Deployment("nginx", {
       spec: { containers: [{ name: "nginx", image: "nginx" }] },
     },
   },
+});
+
+const service = app.createService({
+  type: "ClusterIP",
+  ports: [{ port }],
 });
 
 const ingress = new k8s.apiextensions.CustomResource("nginx-ingress", {
@@ -28,8 +36,8 @@ const ingress = new k8s.apiextensions.CustomResource("nginx-ingress", {
         ],
         services: [
           {
-            name: "nginx",
-            port: 80,
+            name: service.metadata.name,
+            port: port,
           },
         ],
       },
