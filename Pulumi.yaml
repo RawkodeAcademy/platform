@@ -1,4 +1,4 @@
-name: rawkode-academy-platform
+name: platform
 runtime: nodejs
 description: A minimal Kubernetes TypeScript Pulumi program
 main: src/index.ts
