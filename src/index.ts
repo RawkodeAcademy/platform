@@ -24,7 +24,7 @@ const ingress = new k8s.apiextensions.CustomResource("nginx-ingress", {
   apiVersion: "projectcontour.io/v1",
   kind: "HTTPProxy",
   spec: {
-    virtualHost: {
+    virtualhost: {
       fqdn: "nginx.rawkode.sh",
     },
     routes: [
