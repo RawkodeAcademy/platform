@@ -26,6 +26,9 @@ const ingress = new k8s.apiextensions.CustomResource("nginx-ingress", {
   spec: {
     virtualhost: {
       fqdn: "nginx.rawkode.sh",
+      tls: {
+        secretName: "nginx-tls",
+      },
     },
     routes: [
       {
