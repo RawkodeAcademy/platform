@@ -44,3 +44,17 @@ const ingress = new k8s.apiextensions.CustomResource("nginx-ingress", {
     ],
   },
 });
+
+const certificate = new k8s.apiextensions.CustomResource("nginx-tls", {
+  apiVersion: "cert-manager.io/v1",
+  kind: "Certificate",
+  spec: {
+    commonName: "nginx.rawkode.sh",
+    dnsNames: ["nginx.rawkode.sh"],
+    issuerRef: {
+      name: "letsencrypt-production",
+      kind: "ClusterIssuer",
+    },
+    secretName: "nginx-tls",
+  },
+});
